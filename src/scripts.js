@@ -19,6 +19,7 @@ import './images/hotel-background.jpg'
 import { findCustomer, getCustomerId, getCustomer } from '../test/customers.js'
 import { getRoomData, availableRooms } from '../test/rooms.js'
 import { roomBooked } from '../test/bookings.js'
+import rooms from '../test/data/roomsSample.js'
 
 
 console.log('This is the JavaScript entry file - your code begins here.');
@@ -30,7 +31,7 @@ const loginBtn = document.querySelector('.login-btn');
 const homePage = document.querySelector('.dash-board');
 const userInput = document.querySelector('.input-field');
 const searchBtn = document.getElementById('searchBtn');
-const searchResult = document.querySelector('.search-result')
+const searchResult = document.querySelector('.search-result');
 
 let userLoginPage = 
 `<div class="login-form">
@@ -46,53 +47,48 @@ let userLoginPage =
 
 
 const loginPageView = document.querySelector('.login-container');
-loginBtn.classList.remove('hidden')
+loginBtn.classList.remove('hidden');
 const changeToLoginPage = (e) => {
     if(e.target) {
-        loginBtn.classList.add('hidden')
+        loginBtn.classList.add('hidden');
         homePage.innerHTML = userLoginPage;
     }
     const userNameInput = document.querySelector('.user-name');
     const passwordInput = document.querySelector('.password');
-    // const displayDashboard = document.getElementById('displayDashboard');
     const submitInput = (event) => {
-        console.log('event:', event)
+        console.log('event:', event);
         event.preventDefault();
         let customerUserName = userNameInput.value;
-        let customerDetails = getCustomerId(customerUserName)
-        // customerDetails displays id and name of customer
-        console.log('customer details ->', customerDetails)
+        let customerDetails = getCustomerId(customerUserName);
+        console.log('customer details ->', customerDetails);
         let customerPassword = passwordInput.value;
-        // let clientInput = getCustomer(customerUserName);
-        // let userPasswordInput = 'overlook2021';
         if(!customerDetails || !customerPassword) {
-            alert('Please enter a valid USERNAME and/or PASSWORD.')
+            alert('Please enter a valid USERNAME and/or PASSWORD.');
         }
         else if(customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
-            console.log('please tell me:', customerUserName)
+            console.log('please tell me:', customerUserName);
             userLoginPage = '';
-            // const displayDashboard = document.getElementById('displayDashboard');
-            const loggedInCustomer = roomBooked(customerDetails)
+            const loggedInCustomer = roomBooked(customerDetails);
             const bookDateList = loggedInCustomer.reduce((acc, element) => {
-                acc.push(element.date)
-                return acc
-            }, [])
+                acc.push(element.date);
+                return acc;
+            }, []);
             const roomTypeList = loggedInCustomer.reduce((acc, element) => {
-                acc.push(element.roomNumber)
-                return acc
-            }, [])
-            console.log('after logged in: ', loggedInCustomer)
-            console.log(displayDashboard)
+                acc.push(element.roomNumber);
+                return acc;
+            }, []);
+            console.log('after logged in: ', loggedInCustomer);
+            console.log(displayDashboard);
             homePage.innerHTML = `
+            <h2>Welcome, ${customerDetails.name}<h2>
             <div class='display-box'>
-                <h2>Welcome, ${customerDetails.name}<h2>
                 <p class='display-roomNum'>Room Number: ${roomTypeList}</p>
                 <p class='display-roomTypes'></p>
                 <p class='display-bedSize'></p>
                 <p class='display-date'>Dates Booked: ${bookDateList}</p>
                 <p class='display-costPerNight'></p>
             </div>
-            `
+            `;
         }
     }
     const submitBtn = document.querySelector('.submit-btn');
@@ -102,38 +98,29 @@ loginBtn.addEventListener('click', changeToLoginPage);
 
 
 const searchForRoom = () => {
-    //checkInDate -> date selected
-    const checkInDate = document.getElementById('checkInDate').value
-    console.log('check in date:', checkInDate)
-    //roomType -> prints room type selected
-    const roomType = document.getElementById('roomType').value
-    console.log('room TYPE:',roomType)
+    const checkInDate = document.getElementById('checkInDate').value;
+    const roomType = document.getElementById('roomType').value;
     if(!checkInDate) {
         alert('Please select a date')
         return;
     };
-    //userRoom -> array of room type selected
-    let userRoom = getRoomData(roomType)
-    console.log('userroom:', userRoom)
-    //yourAvailableRooms -> UNNDIFINED
-    const yourAvailableRooms = availableRooms(checkInDate, userRoom)
-    console.log('yourava', yourAvailableRooms)
-    displayDashboard(yourAvailableRooms)
+    let userRoom = getRoomData(roomType);
+    const yourAvailableRooms = availableRooms(checkInDate, userRoom);
+    console.log('yourava', yourAvailableRooms);
+    displayDashboard(yourAvailableRooms);
 };
 searchBtn.addEventListener('click', searchForRoom);
 
-const displayDashboard = (rooms) => {
-    const customerSelection = document.getElementById('displayDashboard')
-    const roomType = document.getElementById('filteredRooms')
+const displayDashboard = () => {
+    const customerSelection = document.getElementById('displayDashboard');
+    const roomType = document.getElementById('filteredRooms');
     
-    customerSelection.classList.remove('hidden')
-
-    roomType.innerHTML = ''
-
-}
-
-
-{/* <p>Room Number: ${room.number}</p>
+    customerSelection.classList.remove('hidden');
+    roomType.innerHTML = rooms.map(room => `
+        <div class='room-display'>
+            <p>Room Number: ${room.roomNumber}</p>
             <p>Room Type: ${room.roomType}</p>
             <p>Bed Size: ${room.bedSize}</p>
-            <p>Cost per Night: ${room.costPerNight}</p> */}
+            <p>Price: ${room.costPerNight}</p>
+        </div>`);
+};

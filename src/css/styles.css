@@ -126,3 +126,13 @@ nav .logo a {
     font-size: 25px;
   }
 }
+
+.room-display {
+  border: solid;
+  background-color: #c4dfe6;
+  display: flex;
+  flex-direction: column;
+  p {
+    color: white;
+  }
+}

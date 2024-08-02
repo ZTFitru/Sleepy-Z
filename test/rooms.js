@@ -6,11 +6,10 @@ import rooms from "./data/roomsSample";
 export const getRoomData = (roomType) => {
     const roomInfo = rooms.filter((room) => {
         if(room.roomType === roomType) {
-            return room
+            return room;
         };
     });
     return roomInfo;
-    // console.log(roomInfo)
 };
 //should add a way to calculate total spent in this one
 export const availableRooms = (roomNumber, checkInDate) => {
@@ -24,8 +23,10 @@ export const availableRooms = (roomNumber, checkInDate) => {
     });
 };
 
-// export const displayRoomData = () => {
-//     const matchingRooms = rooms.reduce((acc, room) => {
+export const displayRoomData = (checkingDate, roomType) => {
+    const matchingRooms = rooms.reduce((acc, room) => {
+        if(room.roomType === roomType) {
 
-//     })
-// }
+        };
+    });
+};
