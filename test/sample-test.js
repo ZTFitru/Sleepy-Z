@@ -61,11 +61,12 @@ describe('Bookings', function () {
 
   it('Should return bookings I have made', function() {
     const personOne = 3;
+    const personData = findCustomer(personOne)
     const personOnesRooms = [
       {id: '5fwrgu4i7k55hl6t5', userID: 3, date: '2022/01/24', roomNumber: 2},
       {id: '5fwrgu4i7k55hl6t7', userID: 3, date: '2022/02/16', roomNumber: 4}
     ];
-    const foundRoom = roomBooked(personOne);
+    const foundRoom = roomBooked(personData);
     expect(foundRoom).to.deep.equal(personOnesRooms);
   });
 });

@@ -23,3 +23,9 @@ export const availableRooms = (roomNumber, checkInDate) => {
         return booking.roomNumber === roomNumber && new Date(checkInDate) >= new Date(booking.checkInDate)
     });
 };
+
+// export const displayRoomData = () => {
+//     const matchingRooms = rooms.reduce((acc, room) => {
+
+//     })
+// }

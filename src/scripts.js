@@ -46,39 +46,60 @@ let userLoginPage =
 
 
 const loginPageView = document.querySelector('.login-container');
-
+loginBtn.classList.remove('hidden')
 const changeToLoginPage = (e) => {
     if(e.target) {
+        loginBtn.classList.add('hidden')
         homePage.innerHTML = userLoginPage;
     }
     const userNameInput = document.querySelector('.user-name');
     const passwordInput = document.querySelector('.password');
-    const displayDashboard = document.getElementById('displayDashboard');
+    // const displayDashboard = document.getElementById('displayDashboard');
     const submitInput = (event) => {
         console.log('event:', event)
         event.preventDefault();
         let customerUserName = userNameInput.value;
         let customerDetails = getCustomerId(customerUserName)
+        // customerDetails displays id and name of customer
+        console.log('customer details ->', customerDetails)
         let customerPassword = passwordInput.value;
         // let clientInput = getCustomer(customerUserName);
-        let userPasswordInput = 'overlook2021';
+        // let userPasswordInput = 'overlook2021';
         if(!customerDetails || !customerPassword) {
             alert('Please enter a valid USERNAME and/or PASSWORD.')
         }
-        if(customerDetails === `customer${customerDetails.id}` && customerPassword === userPasswordInput) {
-            console.log('please tell me:', customerDetails)
-            // userLoginPage = '';
-            displayDashboard.innerHTML = `<h2>Welcome, customer<h2>
-            <p>Room Number: ${room.number}</p>
-            <p>Room Type: ${room.roomType}</p>
-            <p>Bed Size: ${room.bedSize}</p>
-            <p>Cost per Night: ${room.costPerNight}</p>`
+        else if(customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
+            console.log('please tell me:', customerUserName)
+            userLoginPage = '';
+            // const displayDashboard = document.getElementById('displayDashboard');
+            const loggedInCustomer = roomBooked(customerDetails)
+            const bookDateList = loggedInCustomer.reduce((acc, element) => {
+                acc.push(element.date)
+                return acc
+            }, [])
+            const roomTypeList = loggedInCustomer.reduce((acc, element) => {
+                acc.push(element.roomNumber)
+                return acc
+            }, [])
+            console.log('after logged in: ', loggedInCustomer)
+            console.log(displayDashboard)
+            homePage.innerHTML = `
+            <div class='display-box'>
+                <h2>Welcome, ${customerDetails.name}<h2>
+                <p class='display-roomNum'>Room Number: ${roomTypeList}</p>
+                <p class='display-roomTypes'></p>
+                <p class='display-bedSize'></p>
+                <p class='display-date'>Dates Booked: ${bookDateList}</p>
+                <p class='display-costPerNight'></p>
+            </div>
+            `
         }
     }
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.addEventListener('click', submitInput);
 }
 loginBtn.addEventListener('click', changeToLoginPage);
+
 
 const searchForRoom = () => {
     //checkInDate -> date selected
@@ -110,3 +131,9 @@ const displayDashboard = (rooms) => {
     roomType.innerHTML = ''
 
 }
+
+
+{/* <p>Room Number: ${room.number}</p>
+            <p>Room Type: ${room.roomType}</p>
+            <p>Bed Size: ${room.bedSize}</p>
+            <p>Cost per Night: ${room.costPerNight}</p> */}
