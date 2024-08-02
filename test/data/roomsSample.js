@@ -24,6 +24,7 @@ const rooms = [
         constPerNight: 491.14
     },
     {
+        //test for available
         number: 4,
         roomType: 'single room',
         bidet: false,

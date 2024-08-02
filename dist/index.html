@@ -15,24 +15,37 @@
       </ul>
     </nav>
   </header>
-  <section class="gallery-container">
-    <div class="main-image">
-      <img id="currentImage" src="./images/image-1.png" alt="Main Image">
-    </div>
-    <div class="thumbnail-container">
-      <img class="thumbnail" src="./images/image-1.png" alt="Thumbnail 1">
-      <img class="thumbnail" src="./images/image-2.png" alt="Thumbnail 2">
-      <img class="thumbnail" src="./images/image-3.png" alt="Thumbnail 3">
-      <img class="thumbnail" src="./images/image-4.png" alt="Thumbnail 4">
-      <img class="thumbnail" src="./images/image-5.png" alt="Thumbnail 5">
-    </div>
-  </section>
-  <section class="login-container">
-    
-  </section>
-  <section class="dash-board">
-
-  </section>
+    <section class="login-container">
+    </section>
+    <section class="dash-board">
+      <h2>Catch Some Z's at Sleepy Z Suit</h2>
+      <div id="customerInfo" class="customer-info">
+        <!-- <h2>Welcome, customer<h2>
+        <p>Room Number: ${room.number}</p>
+        <p>Room Type: ${room.roomType}</p>
+        <p>Bed Size: ${room.bedSize}</p>
+        <p>Cost per Night: ${room.costPerNight}</p> -->
+      </div>
+      <div class="display-message" id="displayMessage"></div>
+      <!-- <div class="search-result hidden" id="displayDashboard"></div> -->
+      <div id="roomSearch" class="check-in-info">
+        <label for="checkInDate">Select Date</label>
+        <input type="date" name="" id="checkInDate">
+        <label for="roomType">Room Type:</label>
+        <select name="" id="roomType">
+          <option value="">Select Room</option>
+          <option value="single room">Single Room</option>
+          <option value="suite">Suite</option>
+          <option value="junior suite">Junior Suite</option>
+          <option value="residential suite">Residential Suite</option>
+        </select>
+        <button id="searchBtn" >Search</button>
+      </div>
+      <div class="search-result" id="displayDashboard"></div>
+      <div id="filteredRooms"></div>
+      <div class="display-message" id="displayMessage"></div>
+    </section>
+  
 
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
