@@ -2,7 +2,7 @@ import chai from 'chai';
 import customers from './data/customerSample';
 import bookings from './data/bookingsSample';
 import rooms from './data/roomsSample'
-import { findCustomer, getCustomer } from './customers';
+import { findCustomer, getCustomer, getCustomerId } from './customers';
 import { roomBooked } from './bookings.js'
 import { getRoomData, availableRooms } from './rooms.js';
 
@@ -25,6 +25,18 @@ describe('Find customer', function () {
   });
 });
 
+describe('Get customer Id', function() {
+  it('Should be a function', function() {
+    expect(getCustomerId).to.be.a('function')
+  });
+
+  it('Should splice numbers to match customer', function() {
+    const customerInput = 'customer3'
+    const customerInfo = getCustomerId(customerInput)
+    expect(customerInfo).to.deep.equal({id: 3, name: 'Kelvin Schiller'})
+  })
+})
+
 describe('Get Customer', function() {
   it('should be a function', function () {
     expect(getCustomer).to.be.a('function');
@@ -32,7 +44,7 @@ describe('Get Customer', function() {
 
   it.skip('Should return if customer can log in with an id or not', function() {
     const customerId = 1;
-    const personId = getCustomer(customerId)
+    const personId = findCustomer(customerId)
     const customerLogin = getCustomer(personId)
     expect(customerLogin).to.deep.equal({
       username: 'customer1',

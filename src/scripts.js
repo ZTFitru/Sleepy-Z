@@ -16,7 +16,7 @@ import './images/image-4.png'
 import './images/image-5.png'
 import './images/SleepyZ-logo.png'
 import './images/hotel-background.jpg'
-import { findCustomer, getCustomer } from '../test/customers.js'
+import { findCustomer, getCustomerId, getCustomer } from '../test/customers.js'
 import { getRoomData, availableRooms } from '../test/rooms.js'
 import { roomBooked } from '../test/bookings.js'
 
@@ -58,14 +58,15 @@ const changeToLoginPage = (e) => {
         console.log('event:', event)
         event.preventDefault();
         let customerUserName = userNameInput.value;
+        let customerDetails = getCustomerId(customerUserName)
         let customerPassword = passwordInput.value;
-        let clientInput = getCustomer(customerUserName);
+        // let clientInput = getCustomer(customerUserName);
         let userPasswordInput = 'overlook2021';
-        if(!customerUserName || !customerPassword) {
+        if(!customerDetails || !customerPassword) {
             alert('Please enter a valid USERNAME and/or PASSWORD.')
         }
-        if(customerUserName === `customer${clientInput}` && customerPassword === userPasswordInput) {
-            // console.log(customerUserName)
+        if(customerDetails === `customer${customerDetails.id}` && customerPassword === userPasswordInput) {
+            console.log('please tell me:', customerDetails)
             // userLoginPage = '';
             displayDashboard.innerHTML = `<h2>Welcome, customer<h2>
             <p>Room Number: ${room.number}</p>
