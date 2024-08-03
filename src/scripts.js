@@ -3,7 +3,7 @@
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css'
-import { getApi,users,userList } from './apiCalls.js'
+import { getApi,customers,userList, getRoomApi, rooms, getBookings, bookings, roomFigures, reservations } from './apiCalls.js'
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 //-------------------------------- IMAGES -------------------------------
@@ -16,10 +16,10 @@ import './images/image-5.png'
 import './images/SleepyZ-logo.png'
 import './images/hotel-background.jpg'
 import { findCustomer, getCustomerId } from '../test/customers.js'
-import { getRoomData, availableRooms } from '../test/rooms.js'
+import { getRoomData, availableRooms, displayRoomData } from '../test/rooms.js'
 import { roomBooked } from '../test/bookings.js'
-import rooms from '../test/data/roomsSample.js'
-import bookings from '../test/data/bookingsSample.js'
+// import rooms from '../test/data/roomsSample.js'
+// import bookings from '../test/data/bookingsSample.js'
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -30,7 +30,9 @@ const loginBtn = document.querySelector('.login-btn');
 const homePage = document.querySelector('.dash-board');
 const userInput = document.querySelector('.input-field');
 const searchBtn = document.getElementById('searchBtn');
-Promise.all([getApi]).then((values) => { users(values) });
+Promise.all([getApi]).then((values) => { userList(values) });
+Promise.all([getRoomApi]).then((values) => {roomFigures(values)})
+Promise.all([getBookings]).then((values) => {reservations(values)})
 
 
 let userLoginPage = 
@@ -62,7 +64,7 @@ const changeToLoginPage = (e) => {
         event.preventDefault();
         let customerUserName = userNameInput.value;
         let customerDetails = getCustomerId(customerUserName);
-        
+        console.log(customerDetails)
         let customerPassword = passwordInput.value;
         if(!customerDetails || !customerPassword) {
             alert('Please enter a valid USERNAME and/or PASSWORD.');
@@ -70,22 +72,18 @@ const changeToLoginPage = (e) => {
         else if(customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
             userLoginPage = '';
             const loggedInCustomer = roomBooked(customerDetails);
-            console.log(userList)
             const totalSpentOnRooms = customerTotalSpent(customerDetails)
             const loggedInCustomerId = findCustomer(customerDetails)
-            const currentRoomType = getRoomData(customerDetails)
             const iHopeThisWorks = getRoomDetails(customerDetails)
 
             console.log(iHopeThisWorks)
             const bookDateList = loggedInCustomer.map(room => room.date).join(', ');
             const roomTypeList = loggedInCustomer.map(type => type.roomNumber).join(', ');
-            // const bedSizeList = loggedInCustomer.map(bed => bed.)
-            // const currentRoomType = currentCustomerId.map(element => element.) <- need to fix displaying room type
             homePage.innerHTML = `
             <h2>Welcome, ${customerDetails.name}<h2>
             <div class='display-box'>
                 <p class='display-roomNum'>Room Number: ${roomTypeList}</p>
-                <p class='display-roomTypes'>Room Type: ${iHopeThisWorks[0].id}</p> 
+                <p class='display-roomTypes'>Room Type: ${iHopeThisWorks.id}</p> 
                 <p class='display-bedSize'></p>
                 <p class='display-date'>Dates Booked: ${bookDateList}</p>
                 <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
@@ -101,6 +99,7 @@ loginBtn.addEventListener('click', changeToLoginPage);
 const customerTotalSpent = (customer) => {
     const customerBooking = roomBooked(customer);
     const totalCost = customerBooking.reduce((total, booked) => {
+        console.log(customerBooking)
         const hotelRoom = rooms.find(room => room.number === booked.roomNumber);
         if(hotelRoom) {
             total += hotelRoom.costPerNight;
@@ -136,9 +135,10 @@ const searchForRoom = () => {
         return;
     }
 
-    const roomsByType = getRoomData(roomType);
+    console.log(rooms)
+    const roomsByType = getRoomData(roomType, rooms);
     const convenientRooms = roomsByType.filter(room =>
-        availableRooms(room.number, checkInDate)
+        availableRooms(room.number, checkInDate, rooms)
     );
     console.log('Available rooms:', convenientRooms);
     if (convenientRooms.length === 0) {
@@ -176,9 +176,13 @@ const bookingARoom = (event) => {
     const roomNumber = parseInt(clickedBtn, 10);
     const checkInDate = document.getElementById('checkInDate').value;
 
-    if (availableRooms(roomNumber, checkInDate)) {
+    if (availableRooms(roomNumber, checkInDate, rooms)) {
+        // rooms, the room number and check in Date
+        // same as your booking, you need update the rooms post
+        // delete that room from the availaible rooms
         bookings.push({ roomNumber: Number(roomNumber), checkInDate});
         updateAvailableRooms(); 
+        searchForRoom();
         alert(`Room ${roomNumber} has been successfully booked.`);
     } else {
         alert(`Room ${roomNumber} is not available.`);
@@ -190,4 +194,10 @@ const updateAvailableRooms = () => {
     const availableRoomLists = rooms.filter(room => !bookedRoomNums.includes(room.number));
 
     displayDashboard(availableRoomLists);
+};
+
+const roomRemoved = () => {
+    removedBookedRoom(roomNum, rooms);
+    const updatedRoomList = displayRoomData(checkInDate, roomType, rooms);
+
 };

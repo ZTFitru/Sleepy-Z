@@ -4,7 +4,8 @@ import bookings from './data/bookingsSample';
 import rooms from './data/roomsSample'
 import { findCustomer, getCustomer, getCustomerId } from './customers';
 import { roomBooked } from './bookings.js'
-import { getRoomData, availableRooms, displayRoomData } from './rooms.js';
+import { getRoomData, availableRooms, displayRoomData, removeBoodedRoom, removedBookedRoom } from './rooms.js';
+
 
 const expect = chai.expect;
 
@@ -20,20 +21,23 @@ describe('Find customer', function () {
   });
 
   it('Should return customer', function () {
-    let customerData = findCustomer(1);
+    const myInput = 1;
+    const newData = {customers: [{customers:customers}]};
+    let customerData = findCustomer(myInput, newData.customers);
     expect(customerData).to.deep.equal({ id: 1, name: 'Leatha Ullrich' });
   });
 });
 
-describe('Get customer Id', function() {
-  it('Should be a function', function() {
-    expect(getCustomerId).to.be.a('function')
+describe('Get customer Id', function () {
+  it('Should be a function', function () {
+    expect(getCustomerId).to.be.a('function');
   });
 
-  it('Should splice numbers to match customer', function() {
-    const customerInput = 'customer3'
-    const customerInfo = getCustomerId(customerInput)
-    expect(customerInfo).to.deep.equal({id: 3, name: 'Kelvin Schiller'})
+  it('Should splice numbers to match customer', function () {
+    const customerInput = 'customer3';
+    const newData = {customers: [{customers: customers}]};
+    const customerInfo = getCustomerId(customerInput, newData.customers);
+    expect(customerInfo).to.deep.equal({ id: 3, name: 'Kelvin Schiller' });
   });
 });
 
@@ -42,26 +46,29 @@ describe('Bookings', function () {
     expect(roomBooked).to.be.a('function');
   });
 
-  it('Should return bookings I have made', function() {
-    const personOne = 3;
-    const personData = findCustomer(personOne)
+  it('Should return bookings I have made', function () {
+    const myInput = 3;
+    const newData = {customers: [{customers:customers}]};
+    const bookingData = {bookings: [{bookings: bookings}]};
+    const personData = findCustomer(myInput, newData.customers);
     const personOnesRooms = [
-      {id: '5fwrgu4i7k55hl6t5', userID: 3, date: '2022/01/24', roomNumber: 2},
-      {id: '5fwrgu4i7k55hl6t7', userID: 3, date: '2022/02/16', roomNumber: 4}
+      { id: '5fwrgu4i7k55hl6t5', userID: 3, date: '2022/01/24', roomNumber: 2 },
+      { id: '5fwrgu4i7k55hl6t7', userID: 3, date: '2022/02/16', roomNumber: 4 }
     ];
-    const foundRoom = roomBooked(personData);
+    const foundRoom = roomBooked(personData, bookingData.bookings);
     expect(foundRoom).to.deep.equal(personOnesRooms);
   });
 });
 
-describe('Rooms', function() {
-  it('Should be a function', function() {
+describe('Rooms', function () {
+  it('Should be a function', function () {
     expect(getRoomData).to.be.a('function');
   });
 
-  it('Should return room type', function() {
+  it('Should return room type', function () {
     let userRoom = 'suite';
-    let roomData = getRoomData(userRoom);
+    const roomsData = {rooms: [{rooms:rooms}]};
+    let roomData = getRoomData(userRoom, roomsData.rooms);
     expect(roomData).to.deep.equal([
       {
         number: 2,
@@ -74,17 +81,19 @@ describe('Rooms', function() {
     ]);
   });
 
-  it('Should check if room is available', function() {
+  it('Should check if room is available', function () {
     const roomNum = 2;
-    const checkInDay = '2022/01/25'
-    const customerInfo = availableRooms(roomNum, checkInDay)
-    expect(customerInfo).to.deep.equal(true)
-  })
+    const checkInDay = '2022/01/25';
+    const roomsData = {rooms: [{rooms:rooms}]};
+    const customerInfo = availableRooms(roomNum, checkInDay, roomsData.rooms);
+    expect(customerInfo).to.deep.equal(true);
+  });
 
-  it('Should display room data', function() {
+  it('Should display room data', function () {
     const myRoom = 'suite';
-    const moveInDate = '2022/01/25'
-    const readyRooms = displayRoomData(moveInDate, myRoom)
+    const moveInDate = '2022/01/25';
+    const roomsData = {rooms: [{rooms:rooms}]};
+    const readyRooms = displayRoomData(moveInDate, myRoom, roomsData.rooms);
     expect(readyRooms).to.deep.equal([
       {
         number: 2,
@@ -95,6 +104,13 @@ describe('Rooms', function() {
         costPerNight: 477.38
       }
     ]);
+  });
+
+  it.skip('Should remove booked room', function() {
+    const homeRoom = 2;
+    const removeRoom = {rooms: [{rooms:rooms}]};
+    const roomData = removedBookedRoom(homeRoom, removeRoom.rooms);
+    expect(homeRoom).to.deep.equal()
   });
 });
 
