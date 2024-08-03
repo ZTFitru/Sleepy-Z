@@ -35,7 +35,7 @@ const searchResult = document.querySelector('.search-result');
 
 let userLoginPage = 
 `<div class="login-form">
-<h1>LOGIN</h1>
+<h1 class='login-title'>LOGIN</h1>
 <form action="">
 <div class="input-field"><input class='user-name' id='userName' type="text" required>
 <label for="userName">USERNAME</label></div>

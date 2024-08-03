@@ -9,16 +9,14 @@
 <body>
   <header>
     <nav class="nav-content">
-      <a href=""><img src="./images/SleepyZ-logo.png" alt=""></a>
-      <ul class="nav-links">
-        <li class="login-btn hidden"><a href=""></a>Login</li>
-      </ul>
+      <a href=""><img src="./images/SleepyZ-logo.png" alt="Sleepy-Z-logo"></a>
+      <div class="nav-links">
+        <button class="login-btn hidden">Login</button>
+      </div>
     </nav>
   </header>
-    <section class="login-container">
-    </section>
     <section class="dash-board">
-      <h2>Catch Some Z's at Sleepy Z Suit</h2>
+      <h1>Catch Some Z's at Sleepy Z Suit</h1>
       <div id="customerInfo" class="customer-info">
       </div>
       <div class="display-message" id="displayMessage"></div>
@@ -36,11 +34,9 @@
         <button id="searchBtn" >Search</button>
       </div>
       <div class="search-result" id="displayDashboard"></div>
-      <div id="filteredRooms"></div>
+      <div class="flitered-rooms" id="filteredRooms"></div>
       <div class="display-message" id="displayMessage"></div>
     </section>
-  
-
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 

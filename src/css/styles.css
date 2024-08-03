@@ -46,34 +46,34 @@ nav .logo a {
   margin-right: 50px;
 }
 
-.nav-content .nav-links li {
-  list-style: none;
+.nav-content .nav-links .login-btn {
   margin: 0 50px;
   cursor: pointer;
   margin-top: 25px;
 }
 
-.nav-links li a {
-  text-decoration: none;
+.nav-links .login-btn {
   color: #0E2431;
   font-size: 18px;
   font-weight: 500;
   padding: 10px 4px;
   transition: all 0.3s ease;
+  background-color: #c4dfe6;
+  border: 0;
 }
-
-.nav-links li a:hover {
-  color: #4070f4;
-}
-
 
 /*------------------CHECK IN DASHBOARD-----------------*/
 
 .dash-board {
-  h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  h1 {
     text-align: center;
     font-size: 33px;
-    color: #66A5AD;
+    background-color: #000;
+    color: #01e1fe;
+    /* margin-top: 150px; */
   } .check-in-info {
     height: 150px;
     width: 550px;
@@ -86,6 +86,13 @@ nav .logo a {
     border-radius: 10px;
   }
 }
+
+/* .login-title {
+  text-align: center;
+    font-size: 33px;
+    background-color: #000;
+    color: #01e1fe;
+} */
 
 .hidden {
   display: none;
@@ -100,6 +107,12 @@ nav .logo a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    h1 {
+      text-align: center;
+      font-size: 33px;
+      background-color: #000;
+      color: #01e1fe;
+    }
   .input-field {
     margin: 10px 10px;
     .user-name,
@@ -127,12 +140,26 @@ nav .logo a {
   }
 }
 
-.room-display {
-  border: solid;
-  background-color: #c4dfe6;
-  display: flex;
-  flex-direction: column;
-  p {
-    color: white;
-  }
+h2 {
+  text-align: center;
+  font-size: 33px;
+  background-color: #000;
+  color: #01e1fe;
 }
+
+#filteredRooms {
+  display: flex;        
+  flex-wrap: wrap;      
+  gap: 20px;            
+  padding: 20px;   
+  justify-content: center;   
+}
+
+.room-display {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;   
+  border-radius: 8px;      
+  padding: 16px;            
+  box-sizing: border-box;   
+}
+
