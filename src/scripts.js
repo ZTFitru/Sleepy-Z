@@ -3,8 +3,7 @@
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css'
-import apiCalls from './apiCalls.js'
-import { getApi } from './apiCalls.js'
+import { getApi,users,userList } from './apiCalls.js'
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 //-------------------------------- IMAGES -------------------------------
@@ -31,6 +30,8 @@ const loginBtn = document.querySelector('.login-btn');
 const homePage = document.querySelector('.dash-board');
 const userInput = document.querySelector('.input-field');
 const searchBtn = document.getElementById('searchBtn');
+Promise.all([getApi]).then((values) => { users(values) });
+
 
 let userLoginPage = 
 `<div class="login-form">
@@ -69,9 +70,13 @@ const changeToLoginPage = (e) => {
         else if(customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
             userLoginPage = '';
             const loggedInCustomer = roomBooked(customerDetails);
+            console.log(userList)
             const totalSpentOnRooms = customerTotalSpent(customerDetails)
             const loggedInCustomerId = findCustomer(customerDetails)
             const currentRoomType = getRoomData(customerDetails)
+            const iHopeThisWorks = getRoomDetails(customerDetails)
+
+            console.log(iHopeThisWorks)
             const bookDateList = loggedInCustomer.map(room => room.date).join(', ');
             const roomTypeList = loggedInCustomer.map(type => type.roomNumber).join(', ');
             // const bedSizeList = loggedInCustomer.map(bed => bed.)
@@ -80,7 +85,7 @@ const changeToLoginPage = (e) => {
             <h2>Welcome, ${customerDetails.name}<h2>
             <div class='display-box'>
                 <p class='display-roomNum'>Room Number: ${roomTypeList}</p>
-                <p class='display-roomTypes'>Room Type: ${getRoomData(loggedInCustomer)}</p> 
+                <p class='display-roomTypes'>Room Type: ${iHopeThisWorks[0].id}</p> 
                 <p class='display-bedSize'></p>
                 <p class='display-date'>Dates Booked: ${bookDateList}</p>
                 <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
@@ -104,6 +109,23 @@ const customerTotalSpent = (customer) => {
     }, 0);
     return totalCost.toFixed(2);
 };
+
+const getRoomDetails = (customer) => {
+    const roomInfo = bookings.reduce((acc, room) => {
+        if(room.userID === customer.id) {
+            acc.push(room)
+        }
+        console.log(acc)
+        return acc
+    }, [])
+    const roomDetail = roomInfo.reduce((acc, room) => {
+        if(room.Number === bookings.roomNumber) {
+            acc.push(room)
+        }
+        return acc
+    }, [])
+    return roomDetail
+}
 
 
 const searchForRoom = () => {
