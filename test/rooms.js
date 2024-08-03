@@ -11,22 +11,23 @@ export const getRoomData = (roomType) => {
     });
     return roomInfo;
 };
-//should add a way to calculate total spent in this one
+
 export const availableRooms = (roomNumber, checkInDate) => {
-    const openRooms = rooms.find((room) => {
-        if(room.number  === roomNumber) {
-            return room;
-        };
-    });
-    return openRooms && !bookings.some((booking) => {
-        return booking.roomNumber === roomNumber && new Date(checkInDate) >= new Date(booking.checkInDate)
-    });
+    const room = rooms.find(room => room.number === roomNumber);
+    if (room) {
+        const isAvailable = !bookings.some(booking => {
+            return booking.roomNumber === roomNumber &&
+                   new Date(checkInDate) >= new Date(booking.checkInDate)
+        });
+        return isAvailable;
+    }
+    return false;
 };
 
-export const displayRoomData = (checkingDate, roomType) => {
-    const matchingRooms = rooms.reduce((acc, room) => {
-        if(room.roomType === roomType) {
-
-        };
-    });
+export const displayRoomData = (checkInDate, roomType) => {
+    const matchingRooms = getRoomData(roomType);
+    const availableRoomsData = matchingRooms.filter(room => 
+        availableRooms(room.number, checkInDate)
+    );
+    return availableRoomsData;
 };

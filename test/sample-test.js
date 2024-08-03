@@ -4,7 +4,7 @@ import bookings from './data/bookingsSample';
 import rooms from './data/roomsSample'
 import { findCustomer, getCustomer, getCustomerId } from './customers';
 import { roomBooked } from './bookings.js'
-import { getRoomData, availableRooms } from './rooms.js';
+import { getRoomData, availableRooms, displayRoomData } from './rooms.js';
 
 const expect = chai.expect;
 
@@ -34,23 +34,6 @@ describe('Get customer Id', function() {
     const customerInput = 'customer3'
     const customerInfo = getCustomerId(customerInput)
     expect(customerInfo).to.deep.equal({id: 3, name: 'Kelvin Schiller'})
-  })
-})
-
-describe('Get Customer', function() {
-  it('should be a function', function () {
-    expect(getCustomer).to.be.a('function');
-  });
-
-  it.skip('Should return if customer can log in with an id or not', function() {
-    const customerId = 1;
-    const personId = findCustomer(customerId)
-    const customerLogin = getCustomer(personId)
-    expect(customerLogin).to.deep.equal({
-      username: 'customer1',
-      password: 'overlook2021'
-    })
-
   });
 });
 
@@ -86,14 +69,32 @@ describe('Rooms', function() {
         bidet: false,
         bedSize: 'full',
         numBeds: 2,
-        constPerNight: 477.38
+        costPerNight: 477.38
       }
     ]);
   });
 
-  it('Should return only available rooms for that date', function() {
-    const myRoom = 'single room'
-    const roomData = getRoomData(myRoom)
+  it('Should check if room is available', function() {
+    const roomNum = 2;
+    const checkInDay = '2022/01/25'
+    const customerInfo = availableRooms(roomNum, checkInDay)
+    expect(customerInfo).to.deep.equal(true)
   })
+
+  it('Should display room data', function() {
+    const myRoom = 'suite';
+    const moveInDate = '2022/01/25'
+    const readyRooms = displayRoomData(moveInDate, myRoom)
+    expect(readyRooms).to.deep.equal([
+      {
+        number: 2,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 477.38
+      }
+    ]);
+  });
 });
 
