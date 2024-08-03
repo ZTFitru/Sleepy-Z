@@ -1,7 +1,7 @@
-import { findCustomer } from "./customers";
-import bookings from "./data/bookingsSample";
-import customers from "./data/customerSample";
-import rooms from "./data/roomsSample";
+// import { findCustomer } from "./customers";
+// import bookings from "./data/bookingsSample";
+// import customers from "./data/customerSample";
+// import rooms from "./data/roomsSample";
 
 
 export const roomBooked = (clientId, bookings) => {

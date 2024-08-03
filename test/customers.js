@@ -1,4 +1,4 @@
-import customers from "./data/customerSample";
+// import customers from "./data/customerSample";
 
 export const findCustomer = (customer, customers) => {
     const customerID = customers[0].customers.find(person => person.id === customer)

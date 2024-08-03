@@ -106,11 +106,11 @@ describe('Rooms', function () {
     ]);
   });
 
-  it.skip('Should remove booked room', function() {
-    const homeRoom = 2;
-    const removeRoom = {rooms: [{rooms:rooms}]};
-    const roomData = removedBookedRoom(homeRoom, removeRoom.rooms);
-    expect(homeRoom).to.deep.equal()
-  });
+  // it.skip('Should remove booked room', function() {
+  //   const homeRoom = 2;
+  //   const removeRoom = {rooms: [{rooms:rooms}]};
+  //   const roomData = removedBookedRoom(homeRoom, removeRoom.rooms);
+  //   expect(homeRoom).to.deep.equal()
+  // });
 });
 

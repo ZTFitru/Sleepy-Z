@@ -63,7 +63,7 @@ const changeToLoginPage = (e) => {
        
         event.preventDefault();
         let customerUserName = userNameInput.value;
-        let customerDetails = getCustomerId(customerUserName);
+        let customerDetails = getCustomerId(customerUserName, customers);
         console.log(customerDetails)
         let customerPassword = passwordInput.value;
         if(!customerDetails || !customerPassword) {
@@ -71,9 +71,9 @@ const changeToLoginPage = (e) => {
         }
         else if(customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
             userLoginPage = '';
-            const loggedInCustomer = roomBooked(customerDetails);
+            const loggedInCustomer = roomBooked(customerDetails, bookings);
             const totalSpentOnRooms = customerTotalSpent(customerDetails)
-            const loggedInCustomerId = findCustomer(customerDetails)
+            // const loggedInCustomerId = findCustomer(customerDetails, customers)
             const iHopeThisWorks = getRoomDetails(customerDetails)
 
             console.log(iHopeThisWorks)
@@ -97,7 +97,7 @@ const changeToLoginPage = (e) => {
 loginBtn.addEventListener('click', changeToLoginPage);
 
 const customerTotalSpent = (customer) => {
-    const customerBooking = roomBooked(customer);
+    const customerBooking = roomBooked(customer, bookings);
     const totalCost = customerBooking.reduce((total, booked) => {
         console.log(customerBooking)
         const hotelRoom = rooms.find(room => room.number === booked.roomNumber);
@@ -176,17 +176,24 @@ const bookingARoom = (event) => {
     const roomNumber = parseInt(clickedBtn, 10);
     const checkInDate = document.getElementById('checkInDate').value;
 
-    if (availableRooms(roomNumber, checkInDate, rooms)) {
-        // rooms, the room number and check in Date
-        // same as your booking, you need update the rooms post
-        // delete that room from the availaible rooms
-        bookings.push({ roomNumber: Number(roomNumber), checkInDate});
+    if (availableRooms(roomNumber, checkInDate, rooms)) {   
+      
+         
+        bookings.push({
+            id: bookings.length + 1,
+            userID,
+            checkInDate,
+            roomNumber
+        });
+        removedBookedRoom()
         updateAvailableRooms(); 
         searchForRoom();
         alert(`Room ${roomNumber} has been successfully booked.`);
     } else {
         alert(`Room ${roomNumber} is not available.`);
     };
+
+    
 };
 
 const updateAvailableRooms = () => {
