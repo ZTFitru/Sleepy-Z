@@ -73,7 +73,6 @@ nav .logo a {
     font-size: 33px;
     background-color: #000;
     color: #01e1fe;
-    /* margin-top: 150px; */
   } .check-in-info {
     height: 150px;
     width: 550px;
@@ -86,13 +85,6 @@ nav .logo a {
     border-radius: 10px;
   }
 }
-
-/* .login-title {
-  text-align: center;
-    font-size: 33px;
-    background-color: #000;
-    color: #01e1fe;
-} */
 
 .hidden {
   display: none;

@@ -20,7 +20,7 @@ import { findCustomer, getCustomerId } from '../test/customers.js'
 import { getRoomData, availableRooms } from '../test/rooms.js'
 import { roomBooked } from '../test/bookings.js'
 import rooms from '../test/data/roomsSample.js'
-
+import bookings from '../test/data/bookingsSample.js'
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -67,27 +67,20 @@ const changeToLoginPage = (e) => {
             alert('Please enter a valid USERNAME and/or PASSWORD.');
         }
         else if(customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
-            console.log('please tell me:', customerUserName);
             userLoginPage = '';
             const loggedInCustomer = roomBooked(customerDetails);
             const totalSpentOnRooms = customerTotalSpent(customerDetails)
+            const loggedInCustomerId = findCustomer(customerDetails)
+            const currentRoomType = getRoomData(customerDetails)
             const bookDateList = loggedInCustomer.map(room => room.date).join(', ');
             const roomTypeList = loggedInCustomer.map(type => type.roomNumber).join(', ');
-            // const bookDateList = loggedInCustomer.reduce((acc, element) => {
-            //     acc.push(element.date);
-            //     return acc;
-            // }, []);
-            // const roomTypeList = loggedInCustomer.reduce((acc, element) => {
-            //     acc.push(element.roomNumber);
-            //     return acc;
-            // }, []);
-            console.log('after logged in: ', loggedInCustomer);
-            console.log(displayDashboard);
+            // const bedSizeList = loggedInCustomer.map(bed => bed.)
+            // const currentRoomType = currentCustomerId.map(element => element.) <- need to fix displaying room type
             homePage.innerHTML = `
             <h2>Welcome, ${customerDetails.name}<h2>
             <div class='display-box'>
                 <p class='display-roomNum'>Room Number: ${roomTypeList}</p>
-                <p class='display-roomTypes'>Room Type: ${getRoomData(loggedInCustomer)}</p>
+                <p class='display-roomTypes'>Room Type: ${getRoomData(loggedInCustomer)}</p> 
                 <p class='display-bedSize'></p>
                 <p class='display-date'>Dates Booked: ${bookDateList}</p>
                 <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
@@ -109,7 +102,7 @@ const customerTotalSpent = (customer) => {
         }
         return total;
     }, 0);
-    return totalCost.toFixed(2)
+    return totalCost.toFixed(2);
 };
 
 
@@ -137,7 +130,7 @@ searchBtn.addEventListener('click', searchForRoom);
 const displayDashboard = (convenientRooms) => {
     const customerSelection = document.getElementById('displayDashboard');
     const roomType = document.getElementById('filteredRooms');
-    
+
     customerSelection.classList.remove('hidden');
     roomType.innerHTML = '';
     roomType.innerHTML = convenientRooms.map(room => `
@@ -146,7 +139,33 @@ const displayDashboard = (convenientRooms) => {
                 <p>Room Type: ${room.roomType}</p>
                 <p>Bed Size: ${room.bedSize}</p>
                 <p>Price per Night: $${room.costPerNight}</p>
-                <button class='book-roomBtn'>Book Room</button>
+                <button class='book-roomBtn' id='bookRoomBtn${room.number}'>Book Room</button>
             </div>
     `).join('');
+
+    const bookRoomBtn = document.querySelectorAll('.book-roomBtn');
+    bookRoomBtn.forEach(button => {
+        button.addEventListener('click', bookingARoom)
+    });
+};
+
+const bookingARoom = (event) => {
+    const clickedBtn = event.target.id.replace('bookRoomBtn', '');
+    const roomNumber = parseInt(clickedBtn, 10);
+    const checkInDate = document.getElementById('checkInDate').value;
+
+    if (availableRooms(roomNumber, checkInDate)) {
+        bookings.push({ roomNumber: Number(roomNumber), checkInDate});
+        updateAvailableRooms(); 
+        alert(`Room ${roomNumber} has been successfully booked.`);
+    } else {
+        alert(`Room ${roomNumber} is not available.`);
+    };
+};
+
+const updateAvailableRooms = () => {
+    const bookedRoomNums = bookings.map(booking => booking.roomNumber);
+    const availableRoomLists = rooms.filter(room => !bookedRoomNums.includes(room.number));
+
+    displayDashboard(availableRoomLists);
 };
