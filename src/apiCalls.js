@@ -26,13 +26,13 @@ const reservations = (response) => {
     bookings.push(response[0]);
 };
 
-const postBookings = (booking) => {
+const postBookings = (customerId, checkInDate, roomNumber) => {
     fetch(bookingAPI, {
         method: 'POST',
         body: JSON.stringify({
-            userID: booking.userID,
-            date: booking.date,
-            roomNumber: booking.roomNumber
+            userID: customerId,
+            date: checkInDate,
+            roomNumber: roomNumber
         }),
         headers: {
             'Content-Type': 'application/json'

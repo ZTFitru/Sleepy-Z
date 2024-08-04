@@ -33,10 +33,12 @@ export const displayRoomData = (checkInDate, roomType, rooms) => {
 };
 
 export const removedBookedRoom = (roomNum, rooms) => {
+    const newArray = []
+
     rooms[0].rooms.filter((newRoom => {
-        if(newRoom.number === roomNum) {
-            rooms.pop(newRoom)
+        if(newRoom.number !== roomNum) {
+            newArray.push(newRoom)
         }
     }));
-    return rooms;
+    return newArray;
 };

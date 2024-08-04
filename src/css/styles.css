@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   height: 100vh;
   margin: 0;
@@ -127,8 +128,8 @@ nav .logo a {
   color: white;
   width: 450px;
   p {
-    color: white;
-    font-size: 25px;
+    color: black;
+    font-size: 20px;
   }
 }
 
@@ -142,8 +143,8 @@ h2 {
 #filteredRooms {
   display: flex;        
   flex-wrap: wrap;      
-  gap: 20px;            
-  padding: 20px;   
+  gap: 10px;            
+  padding: 15px;   
   justify-content: center;   
 }
 
@@ -155,3 +156,7 @@ h2 {
   box-sizing: border-box;   
 }
 
+.check-in-box {
+  border: solid;
+  background-color: #c4dfe6;
+}

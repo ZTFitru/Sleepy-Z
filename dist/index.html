@@ -10,9 +10,9 @@
   <header>
     <nav class="nav-content">
       <a href=""><img src="./images/SleepyZ-logo.png" alt="Sleepy-Z-logo"></a>
-      <div class="nav-links">
+      <!-- <div class="nav-links">
         <button class="login-btn hidden">Login</button>
-      </div>
+      </div> -->
     </nav>
   </header>
     <section class="dash-board">
@@ -20,25 +20,38 @@
       <div id="customerInfo" class="customer-info">
       </div>
       <div class="display-message" id="displayMessage"></div>
+      <div class="login-form">
+        <h1>LOGIN</h1>
+        <form action="">
+        <div class="input-field"><input class='user-name' id='userName' type="text" required>
+          <label for="userName">USERNAME</label></div>
+          <div class="input-field"><input class='password' id='userPassword' type="text" required>
+          <label for="userPassword">PASSWORD</label></div>
+          <button class='submit-btn' type="submit">LOG IN</button></form>
+      </div>
+      <!-- <div class="search-result" id="displayDashboard"></div>
+      <div class="flitered-rooms" id="filteredRooms"></div>
+      <div class="display-message" id="displayMessage"></div> -->
+    </section>
+    <section class="check-in-box hidden">
       <div id="roomSearch" class="check-in-info">
         <label for="checkInDate">Select Date</label>
         <input type="date" name="" id="checkInDate">
         <label for="roomType">Room Type:</label>
         <select name="" id="roomType">
-          <option value="">Select Room</option>
-          <option value="single room">Single Room</option>
-          <option value="suite">Suite</option>
-          <option value="junior suite">Junior Suite</option>
-          <option value="residential suite">Residential Suite</option>
+            <option value="">Select Room</option>
+            <option value="single room">Single Room</option>
+            <option value="suite">Suite</option>
+            <option value="junior suite">Junior Suite</option>
+            <option value="residential suite">Residential Suite</option>
         </select>
         <button id="searchBtn" >Search</button>
-      </div>
-      <div class="search-result" id="displayDashboard"></div>
+    </div>
+    <div class="search-result" id="displayDashboard"></div>
       <div class="flitered-rooms" id="filteredRooms"></div>
       <div class="display-message" id="displayMessage"></div>
     </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
-
 </body>
 </html>
