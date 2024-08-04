@@ -48,6 +48,7 @@ const submitInput = (event) => {
     const passwordInput = document.querySelector('.password');
     customerUserName = userNameInput.value
     customerDetails = getCustomerId(customerUserName, customers);
+    console.log('after the getCustomerId function ---->',customerDetails)
     let customerPassword = passwordInput.value;
 
     if (!customerDetails || !customerPassword) {
@@ -55,14 +56,24 @@ const submitInput = (event) => {
     } else if (customerUserName === `customer${customerDetails.id}` && customerPassword === 'overlook2021') {
         const loggedInCustomer = roomBooked(customerDetails, bookings);
         const totalSpentOnRooms = customerTotalSpent(customerDetails);
+        const findRoomType = getRoomDetails(customerDetails);
         const bookDateList = loggedInCustomer.map(room => room.date).join(', ');
-        const roomTypeList = loggedInCustomer.map(type => type.roomNumber).join(', ');
+        const roomNums = loggedInCustomer.map(type => type.roomNumber).join(', ');
+        const allRoomTypes = findRoomType.reduce((acc, room) => {
+            room.forEach((type) => {
+                acc.push(type);
+            })
+            return acc;
+        }, []);
+        const newRoomType = allRoomTypes.map(room => room.roomType).join(', ');
 
+
+        
         homePage.innerHTML = `
         <h2>Welcome, ${customerDetails.name}</h2>
         <div class='display-box'>
-            <p class='display-roomNum'>Room Number: ${roomTypeList}</p>
-            <p class='display-roomTypes'>Room Type: </p> 
+            <p class='display-roomNum'>Room Number: ${roomNums}</p>
+            <p class='display-roomTypes'>Room Type: ${newRoomType}</p> 
             <p class='display-bedSize'></p>
             <p class='display-date'>Dates Booked: ${bookDateList}</p>
             <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
@@ -82,7 +93,7 @@ submitBtn.addEventListener('click', submitInput);
 const customerTotalSpent = (customer) => {
     const customerBooking = roomBooked(customer, bookings);
     const totalCost = customerBooking.reduce((total, booked) => {
-        const hotelRoom = rooms.find(room => room.number === booked.roomNumber);
+        const hotelRoom = rooms[0].rooms.find(room => room.number === booked.roomNumber);
         if(hotelRoom) {
             total += hotelRoom.costPerNight;
         }
@@ -92,21 +103,27 @@ const customerTotalSpent = (customer) => {
 };
     
 const getRoomDetails = (customer) => {
-    const roomInfo = bookings.reduce((acc, room) => {
+    const roomInfo = bookings[0].bookings.reduce((acc, room) => {
         if(room.userID === customer.id) {
-            acc.push(room)
-        }
-        return acc
-    }, [])
-    const roomDetail = roomInfo.reduce((acc, room) => {
-        if(room.Number === bookings.roomNumber) {
-            acc.push(room)
-        }
-        return acc
-    }, [])
-    return roomDetail
+            acc.push(room);
+        };
+        return acc;
+    }, []);
+    return getRoomInfo(roomInfo);
 }
 
+const getRoomInfo = (roomInfo) => {
+    const roomTypeData = roomInfo.reduce((acc, hotelRoom) => {
+        const filteredList = rooms[0].rooms.filter((room) => {
+            if(room.number === hotelRoom.roomNumber) {
+                return room;
+            }
+        });
+        acc.push(filteredList);
+        return acc;
+    }, []);
+    return roomTypeData;
+}
 
 const searchForRoom = () => {
     const checkInView = document.querySelector('.check-in-box');
