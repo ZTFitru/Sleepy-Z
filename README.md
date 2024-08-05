@@ -26,17 +26,9 @@
 
 ![Preview](src/images/sleepyZHotel.gif)
 
-## Context:
-
-- At Turing School of Software and Design, during the first week of Mod 2, we were assigned to create a recipe website. Our responsibilities included developing the website's functionality by writing tests based on user, recipe, and ingredient criteria. During the testing phase, we created functions to filter recipes by name, tag, and ingredient, as well as to calculate the total cost of ingredients and return instructions for a given recipe.
-
-- In the user phase of the assignment, we implemented features that allowed users to filter recipes by tag, name, and ingredient. Users could also add or remove recipes from their saved recipes section and search for saved recipes by name or tag.
-
-- In the final phase of the project, we transitioned from using a hardcoded data file to using a fetch call to receive data. After researching Promise.all(), we successfully gathered data by fetching it with this static method. From there, we were also able to use POST for the first time in order to ensure our users saved recipe section would persist on reload!
-
-
 
 ## Learning Goals:
+
 - `Data Manipulation`: Use object and array prototype methods.
 - `User Interface`: Create a clear and accessible UI.
 - `Network Requests`: Retrieve data via network requests.
