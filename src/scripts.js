@@ -71,7 +71,7 @@ const submitInput = (event) => {
         
         homePage.innerHTML = `
         <h2>Welcome, ${customerDetails.name}</h2>
-        <div class='display-box'>
+        <div class='display-box customer-box'>
             <p class='display-roomNum'>Room Number: ${roomNums}</p>
             <p class='display-roomTypes'>Room Type: ${newRoomType}</p> 
             <p class='display-bedSize'>Bed Size: ${bedSizeList}</p>
@@ -225,10 +225,7 @@ const bookingARoom = (event) => {
             roomNumber: roomNumber
         });
         if(bookings[0].bookings.find(bookedRoom => bookedRoom.checkInDate !== checkInDate)){
-            postBookings(customerId.id, checkInDateFinal, roomNumber)
-
-
-           
+            postBookings(customerId.id, checkInDateFinal, roomNumber);
             updateAvailableRooms(roomNumber, checkInDateFinal); 
             alert(`Room ${roomNumber} has been successfully booked.`);
         }
