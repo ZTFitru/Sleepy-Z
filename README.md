@@ -24,7 +24,7 @@
 
 ## Preview of App:
 
-![Preview](src/images/sleepyZHotel-gif.gif)
+![Preview](src/images/sleepyZhotel-gif.gif)
 
 
 ## Learning Goals:
