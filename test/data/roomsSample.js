@@ -5,7 +5,7 @@ const rooms = [
         bidet: true,
         bedSize: 'queen',
         numBeds: 1,
-        constPerNight: 358.4
+        costPerNight: 358.4
     },
     {
         number: 2,
@@ -13,7 +13,7 @@ const rooms = [
         bidet: false,
         bedSize: 'full',
         numBeds: 2,
-        constPerNight: 477.38
+        costPerNight: 477.38
     },
     {
         number: 3,
@@ -21,16 +21,15 @@ const rooms = [
         bidet: false,
         bedSize: 'king',
         numBeds: 1,
-        constPerNight: 491.14
+        costPerNight: 491.14
     },
     {
-        //test for available
         number: 4,
         roomType: 'single room',
         bidet: false,
         bedSize: 'queen',
         numBeds: 1,
-        constPerNight: 429.44
+        costPerNight: 429.44
     },
     {
         number: 5,
@@ -38,7 +37,7 @@ const rooms = [
         bidet: true,
         bedSize: 'queen',
         numBeds: 2,
-        constPerNight: 340.17
+        costPerNight: 340.17
     },
     {
         number: 6,

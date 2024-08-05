@@ -2,8 +2,9 @@ body {
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: auto;
   margin: 0;
   background-image: url('https://images.pexels.com/photos/219692/pexels-photo-219692.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
   background-position: center;
@@ -46,34 +47,34 @@ nav .logo a {
   margin-right: 50px;
 }
 
-.nav-content .nav-links li {
-  list-style: none;
+.nav-content .nav-links .login-btn {
   margin: 0 50px;
   cursor: pointer;
   margin-top: 25px;
 }
 
-.nav-links li a {
-  text-decoration: none;
+.nav-links .login-btn {
   color: #0E2431;
   font-size: 18px;
   font-weight: 500;
   padding: 10px 4px;
   transition: all 0.3s ease;
+  background-color: #c4dfe6;
+  border: 0;
 }
-
-.nav-links li a:hover {
-  color: #4070f4;
-}
-
 
 /*------------------CHECK IN DASHBOARD-----------------*/
 
 .dash-board {
-  h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 300px;
+  h1 {
     text-align: center;
     font-size: 33px;
-    color: #66A5AD;
+    background-color: #000;
+    color: #01e1fe;
   } .check-in-info {
     height: 150px;
     width: 550px;
@@ -100,6 +101,12 @@ nav .logo a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    h1 {
+      text-align: center;
+      font-size: 33px;
+      background-color: #000;
+      color: #01e1fe;
+    }
   .input-field {
     margin: 10px 10px;
     .user-name,
@@ -115,24 +122,54 @@ nav .logo a {
     margin: 10px 10px;
   }
 }
-
+/*-----work on this more-----*/
 .display-box {
   border: solid;
   background-color: #c4dfe6;
   color: white;
   width: 450px;
   p {
-    color: white;
-    font-size: 25px;
+    color: black;
+    font-size: 20px;
   }
 }
 
+h2 {
+  text-align: center;
+  font-size: 33px;
+  background-color: #000;
+  color: #01e1fe;
+}
+
+#filteredRooms {
+  display: flex;        
+  flex-wrap: wrap;      
+  gap: 10px;            
+  padding: 15px;   
+  justify-content: center;   
+}
+
 .room-display {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;   
+  border-radius: 8px;      
+  padding: 16px;            
+  box-sizing: border-box;   
+}
+
+.check-in-box {
   border: solid;
   background-color: #c4dfe6;
+}
+
+.customer-box {
   display: flex;
   flex-direction: column;
   p {
-    color: white;
+    border: 1px solid #ccc;
+    padding: 10px; 
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9; 
   }
 }
