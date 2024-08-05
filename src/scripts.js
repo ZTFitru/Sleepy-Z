@@ -58,24 +58,15 @@ const submitInput = (event) => {
         const loggedInCustomer = roomBooked(customerDetails, bookings);
         const totalSpentOnRooms = customerTotalSpent(customerDetails);
         const findRoomType = getRoomDetails(customerDetails);
-        const bookDateList = loggedInCustomer.map(room => room.date).join(', ');
-        const roomNums = loggedInCustomer.map(type => type.roomNumber).join(', ');
-        const allRoomTypes = findRoomType.reduce((acc, room) => {
-            room.forEach((type) => {
-                acc.push(type);
-            })
-            return acc;
-        }, []);
-        const newRoomType = allRoomTypes.map(room => room.roomType).join(', ');
-        const bedSizeList = allRoomTypes.map(room => room.bedSize).join(', ');
-        
+
+        const roomDetailsHTML = generateRoomHTML(loggedInCustomer, findRoomType);
+
         homePage.innerHTML = `
         <h2>Welcome, ${customerDetails.name}</h2>
         <div class='display-box customer-box'>
-            <p class='display-roomNum'>Room Number: ${roomNums}</p>
-            <p class='display-roomTypes'>Room Type: ${newRoomType}</p> 
-            <p class='display-bedSize'>Bed Size: ${bedSizeList}</p>
-            <p class='display-date'>Dates Booked: ${bookDateList}</p>
+            <div class='room-container'>
+                ${roomDetailsHTML}
+            </div>
             <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
         </div>
         `;
@@ -89,6 +80,34 @@ const submitInput = (event) => {
 
 submitBtn.addEventListener('click', submitInput);
 
+const generateRoomHTML = (loggedInCustomer, findRoomType) => {
+    let roomDetailsHTML = '';
+    
+    const allRoomTypes = findRoomType.reduce((acc, room) => {
+        room.forEach((type) => {
+            acc.push(type);
+        })
+        return acc;
+    }, []);
+
+    loggedInCustomer.forEach((room, index) => {
+        const roomType = allRoomTypes[index].roomType;
+        const bedSize = allRoomTypes[index].bedSize;
+        const dateBooked = room.date;
+        const roomNumber = room.roomNumber;
+
+        roomDetailsHTML += `
+        <div class='room-details'>
+            <p class='room-number'>Room Number: ${roomNumber}</p>
+            <p class='room-type'>Room Type: ${roomType}</p>
+            <p class='bed-size'>Bed Size: ${bedSize}</p>
+            <p class='date-booked'>Date Booked: ${dateBooked}</p>
+        </div>
+        `;
+    });
+
+    return roomDetailsHTML;
+};
 
 const customerTotalSpent = (customer) => {
     const customerBooking = roomBooked(customer, bookings);
@@ -144,32 +163,29 @@ const searchForRoom = () => {
 
     const bookedRoom =  bookings[0].bookings.find(bookedRoom => {
         if(bookedRoom.userID === customerDetails.id && bookedRoom.date === checkInDateFinal){
-            return bookedRoom
+            return bookedRoom;
         }});  
             
     if(bookedRoom){
         const bookedRoomDate = rooms[0].rooms.find((roomWithBook) => {
             if(roomWithBook.number === bookedRoom.roomNumber){
-               return roomWithBook 
-            }
-        })
+               return roomWithBook;
+            };
+        });
        
-        const newArray = removedBookedRoom(bookedRoomDate.number, rooms)
+        const newArray = removedBookedRoom(bookedRoomDate.number, rooms);
         rooms[0].rooms.splice(0, rooms[0].rooms.length, ...newArray);
     
         const roomsByTypeList = getRoomData(roomType, rooms);
         const convenientRoomsList = roomsByTypeList.filter(room =>
             availableRooms(room.number, checkInDateFinal, rooms)
         );
-       
-        displayDashboard(convenientRoomsList)
-    }
+        displayDashboard(convenientRoomsList);
+    };
 
     if(!bookedRoom){
     displayDashboard(convenientRooms);
-    }
-
-    
+    };  
 };
 document.getElementById('searchBtn').addEventListener('click', searchForRoom);
     
@@ -228,7 +244,7 @@ const bookingARoom = (event) => {
             postBookings(customerId.id, checkInDateFinal, roomNumber);
             updateAvailableRooms(roomNumber, checkInDateFinal); 
             alert(`Room ${roomNumber} has been successfully booked.`);
-        }
+        };
       
     } else {
         alert(`Room ${roomNumber} is not available.`);
@@ -237,8 +253,6 @@ const bookingARoom = (event) => {
 };
     
 const updateAvailableRooms = (roomNumber, checkInDateFinal) => {
-   
-
     const newArray = removedBookedRoom(roomNumber, rooms)
     rooms[0].rooms.splice(0, rooms[0].rooms.length, ...newArray);
 
@@ -248,7 +262,5 @@ const updateAvailableRooms = (roomNumber, checkInDateFinal) => {
     ); 
     
     avaliableRoomHandler = true;
-
-    
     displayDashboard(convenientRoomsList);
 };
