@@ -28,11 +28,13 @@ const submitBtn = document.querySelector('.submit-btn');
 const userNameInput = document.querySelector('.user-name');
 const passwordInput = document.querySelector('.password');
 const homePage = document.querySelector('.dash-board');
-const searchBtn = document.getElementById('searchBtn');  //<-test new
-const checkInView = document.querySelector('.check-in-box')
+const searchBtn = document.getElementById('searchBtn');  
+const checkInView = document.querySelector('.check-in-box');
 
 let customerDetails;
 let customerUserName;
+let avaliableRoomHandler;
+let globalRoomType;
 
 
 Promise.all([getApi]).then((values) => { userList(values) });
@@ -46,9 +48,8 @@ const submitInput = (event) => {
 
     const userNameInput = document.querySelector('.user-name');
     const passwordInput = document.querySelector('.password');
-    customerUserName = userNameInput.value
+    customerUserName = userNameInput.value;
     customerDetails = getCustomerId(customerUserName, customers);
-    console.log('after the getCustomerId function ---->',customerDetails)
     let customerPassword = passwordInput.value;
 
     if (!customerDetails || !customerPassword) {
@@ -66,15 +67,14 @@ const submitInput = (event) => {
             return acc;
         }, []);
         const newRoomType = allRoomTypes.map(room => room.roomType).join(', ');
-
-
+        const bedSizeList = allRoomTypes.map(room => room.bedSize).join(', ');
         
         homePage.innerHTML = `
         <h2>Welcome, ${customerDetails.name}</h2>
         <div class='display-box'>
             <p class='display-roomNum'>Room Number: ${roomNums}</p>
             <p class='display-roomTypes'>Room Type: ${newRoomType}</p> 
-            <p class='display-bedSize'></p>
+            <p class='display-bedSize'>Bed Size: ${bedSizeList}</p>
             <p class='display-date'>Dates Booked: ${bookDateList}</p>
             <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
         </div>
@@ -130,22 +130,46 @@ const searchForRoom = () => {
     checkInView.classList.remove('hidden');
     const checkInDate = document.getElementById('checkInDate').value;
     const roomType = document.getElementById('roomType').value;
+    globalRoomType = roomType
+    const checkInDateFinal = checkInDate.split('-').join('/');
 
     if (!checkInDate) {
         alert('Please select a date');
         return;
     }
-
     const roomsByType = getRoomData(roomType, rooms);
     const convenientRooms = roomsByType.filter(room =>
-        availableRooms(room.number, checkInDate, rooms)
+        availableRooms(room.number, checkInDateFinal, rooms)
     );
 
-    if (convenientRooms.length === 0) {
-        alert('Sorry for the inconvenience, but please adjust your room search criteria.');
-    } else {
-        displayDashboard(convenientRooms);
+    const bookedRoom =  bookings[0].bookings.find(bookedRoom => {
+        if(bookedRoom.userID === customerDetails.id && bookedRoom.date === checkInDateFinal){
+            return bookedRoom
+        }});  
+            
+    if(bookedRoom){
+        const bookedRoomDate = rooms[0].rooms.find((roomWithBook) => {
+            if(roomWithBook.number === bookedRoom.roomNumber){
+               return roomWithBook 
+            }
+        })
+       
+        const newArray = removedBookedRoom(bookedRoomDate.number, rooms)
+        rooms[0].rooms.splice(0, rooms[0].rooms.length, ...newArray);
+    
+        const roomsByTypeList = getRoomData(roomType, rooms);
+        const convenientRoomsList = roomsByTypeList.filter(room =>
+            availableRooms(room.number, checkInDateFinal, rooms)
+        );
+       
+        displayDashboard(convenientRoomsList)
     }
+
+    if(!bookedRoom){
+    displayDashboard(convenientRooms);
+    }
+
+    
 };
 document.getElementById('searchBtn').addEventListener('click', searchForRoom);
     
@@ -154,9 +178,20 @@ searchBtn.addEventListener('click', searchForRoom);
 const displayDashboard = (convenientRooms) => {
     const customerSelection = document.getElementById('displayDashboard');
     const roomType = document.getElementById('filteredRooms');
-    
-
     roomType.innerHTML = '';
+
+    if(avaliableRoomHandler){
+        avaliableRoomHandler = false;
+        roomType.innerHTML = convenientRooms.map(room => `
+            <div class="room-display" id='roomID${room.number}'>
+                <h3 id='roomName${room.number}'>Room Number: ${room.number}</h3>
+                <p>Room Type: ${room.roomType}</p>
+                <p>Bed Size: ${room.bedSize}</p>
+                <p>Price per Night: $${room.costPerNight}</p>
+                <button class='book-roomBtn' id='bookRoomBtn${room.number}'>Book Room</button>
+            </div>
+        `).join('');
+    } else{
     roomType.innerHTML = convenientRooms.map(room => `
         <div class="room-display" id='roomID${room.number}'>
             <h3 id='roomName${room.number}'>Room Number: ${room.number}</h3>
@@ -166,6 +201,7 @@ const displayDashboard = (convenientRooms) => {
             <button class='book-roomBtn' id='bookRoomBtn${room.number}'>Book Room</button>
         </div>
     `).join('');
+    }
     
     const bookRoomBtn = document.querySelectorAll('.book-roomBtn');
     bookRoomBtn.forEach(button => {
@@ -179,9 +215,6 @@ const bookingARoom = (event) => {
     const checkInDate = document.getElementById('checkInDate').value;
     const checkInDateFinal = checkInDate.split('-').join('/');
 
-    const [month, day, year] = checkInDateFinal;
-    // const checkInDateFormated = `${year}/${month}/${day}`
-    // console.log('after', checkInDateFormated)
     if (availableRooms(roomNumber, checkInDate, rooms)) {   
         let customerId = getCustomerId(customerUserName, customers)
             
@@ -191,22 +224,34 @@ const bookingARoom = (event) => {
             checkInDate: checkInDate,
             roomNumber: roomNumber
         });
-        postBookings(customerId.id, checkInDateFinal, roomNumber)
-        
-        const newArray = removedBookedRoom(roomNumber, rooms)
-        rooms[0].rooms.splice(0, rooms[0].rooms.length, ...newArray);
-        updateAvailableRooms(); 
-        searchForRoom();
-        alert(`Room ${roomNumber} has been successfully booked.`);
+        if(bookings[0].bookings.find(bookedRoom => bookedRoom.checkInDate !== checkInDate)){
+            postBookings(customerId.id, checkInDateFinal, roomNumber)
+
+
+           
+            updateAvailableRooms(roomNumber, checkInDateFinal); 
+            alert(`Room ${roomNumber} has been successfully booked.`);
+        }
+      
     } else {
         alert(`Room ${roomNumber} is not available.`);
     };
     
 };
     
-const updateAvailableRooms = () => {
-    const bookedRoomNums = bookings.map(booking => booking.roomNumber);
-    const availableRoomLists = rooms.filter(room => !bookedRoomNums.includes(room.number));
+const updateAvailableRooms = (roomNumber, checkInDateFinal) => {
+   
+
+    const newArray = removedBookedRoom(roomNumber, rooms)
+    rooms[0].rooms.splice(0, rooms[0].rooms.length, ...newArray);
+
+    const roomsByTypeList = getRoomData(globalRoomType, rooms);
+    const convenientRoomsList = roomsByTypeList.filter(room =>
+        availableRooms(room.number, checkInDateFinal, rooms)
+    ); 
     
-    displayDashboard(availableRoomLists);
+    avaliableRoomHandler = true;
+
+    
+    displayDashboard(convenientRoomsList);
 };

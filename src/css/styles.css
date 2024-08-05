@@ -4,7 +4,7 @@ body {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: auto;
   margin: 0;
   background-image: url('https://images.pexels.com/photos/219692/pexels-photo-219692.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
   background-position: center;
@@ -69,6 +69,7 @@ nav .logo a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 300px;
   h1 {
     text-align: center;
     font-size: 33px;
