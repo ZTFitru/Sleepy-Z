@@ -9,6 +9,7 @@ body {
   background-image: url('https://images.pexels.com/photos/219692/pexels-photo-219692.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 header {
@@ -42,18 +43,18 @@ nav .logo a {
   color: #4070f4;
 }
 
-.nav-content .nav-links {
+.nav-content {
   display: flex;
   margin-right: 50px;
 }
 
-.nav-content .nav-links .login-btn {
+.nav-content .login-btn {
   margin: 0 50px;
   cursor: pointer;
   margin-top: 25px;
 }
 
-.nav-links .login-btn {
+.login-btn {
   color: #0E2431;
   font-size: 18px;
   font-weight: 500;
@@ -95,18 +96,18 @@ nav .logo a {
 /*-----LOGIN IN-----*/
 
 .login-form {
-    border: solid;
-    background-color: #c4dfe6;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    h1 {
-      text-align: center;
-      font-size: 33px;
-      background-color: #000;
-      color: #01e1fe;
-    }
+  border: solid;
+  background-color: #c4dfe6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    text-align: center;
+    font-size: 33px;
+    background-color: #000;
+    color: #01e1fe;
+  }
   .input-field {
     margin: 10px 10px;
     .user-name,
