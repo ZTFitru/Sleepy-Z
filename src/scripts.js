@@ -93,6 +93,7 @@ const generateRoomHTML = (loggedInCustomer, findRoomType) => {
     loggedInCustomer.forEach((room, index) => {
         const roomType = allRoomTypes[index].roomType;
         const bedSize = allRoomTypes[index].bedSize;
+        const bidetData = allRoomTypes[index].bidet;
         const dateBooked = room.date;
         const roomNumber = room.roomNumber;
 
@@ -100,6 +101,7 @@ const generateRoomHTML = (loggedInCustomer, findRoomType) => {
         <div class='room-details'>
             <p class='room-number'>Room Number: ${roomNumber}</p>
             <p class='room-type'>Room Type: ${roomType}</p>
+            <p class='room-type'>Has a Bidet: ${bidetData}</p>
             <p class='bed-size'>Bed Size: ${bedSize}</p>
             <p class='date-booked'>Date Booked: ${dateBooked}</p>
         </div>
