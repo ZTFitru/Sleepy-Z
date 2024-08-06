@@ -30,7 +30,7 @@ const postBookings = (customerId, checkInDate, roomNumber) => {
     fetch(bookingAPI, {
         method: 'POST',
         body: JSON.stringify({
-            userID: customerId,
+            userID: customerId.id,
             date: checkInDate,
             roomNumber: roomNumber
         }),

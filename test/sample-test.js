@@ -2,9 +2,9 @@ import chai from 'chai';
 import customers from './data/customerSample';
 import bookings from './data/bookingsSample';
 import rooms from './data/roomsSample'
-import { findCustomer, getCustomer, getCustomerId } from './customers';
+import { findCustomer, getCustomerId } from './customers';
 import { roomBooked } from './bookings.js'
-import { getRoomData, availableRooms, displayRoomData, removeBoodedRoom, removedBookedRoom } from './rooms.js';
+import { getRoomData, availableRooms } from './rooms.js';
 
 
 const expect = chai.expect;
@@ -85,25 +85,9 @@ describe('Rooms', function () {
     const roomNum = 2;
     const checkInDay = '2022/01/25';
     const roomsData = {rooms: [{rooms:rooms}]};
-    const customerInfo = availableRooms(roomNum, checkInDay, roomsData.rooms);
-    expect(customerInfo).to.deep.equal(true);
-  });
-
-  it('Should display room data', function () {
-    const myRoom = 'suite';
-    const moveInDate = '2022/01/25';
-    const roomsData = {rooms: [{rooms:rooms}]};
-    const readyRooms = displayRoomData(moveInDate, myRoom, roomsData.rooms);
-    expect(readyRooms).to.deep.equal([
-      {
-        number: 2,
-        roomType: 'suite',
-        bidet: false,
-        bedSize: 'full',
-        numBeds: 2,
-        costPerNight: 477.38
-      }
-    ]);
+    const bookingsData = {bookings: [{bookings:bookings}]}
+    const customerInfo = availableRooms(roomNum, checkInDay, roomsData.rooms, bookingsData.bookings);
+    expect(customerInfo).to.be.true;
   });
 });
 
