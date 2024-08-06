@@ -102,7 +102,7 @@ nav .logo a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  h1 {
+  h2 {
     text-align: center;
     font-size: 33px;
     background-color: #000;
@@ -133,13 +133,6 @@ nav .logo a {
     color: black;
     font-size: 20px;
   }
-}
-
-h2 {
-  text-align: center;
-  font-size: 33px;
-  background-color: #000;
-  color: #01e1fe;
 }
 
 #filteredRooms {

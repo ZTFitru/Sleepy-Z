@@ -173,7 +173,7 @@ const displayDashboard = (convenientRooms) => {
         avaliableRoomHandler = false;
         roomType.innerHTML = convenientRooms.map(room => `
             <div class="room-display" id='roomID${room.number}'>
-                <h3 id='roomName${room.number}'>Room Number: ${room.number}</h3>
+                <h2 id='roomName${room.number}'>Room Number: ${room.number}</h2>
                 <p>Room Type: ${room.roomType}</p>
                 <p>Bed Size: ${room.bedSize}</p>
                 <p>Price per Night: $${room.costPerNight}</p>
@@ -183,7 +183,7 @@ const displayDashboard = (convenientRooms) => {
     } else{
     roomType.innerHTML = convenientRooms.map(room => `
         <div class="room-display" id='roomID${room.number}'>
-            <h3 id='roomName${room.number}'>Room Number: ${room.number}</h3>
+            <h2 id='roomName${room.number}'>Room Number: ${room.number}</h2>
             <p>Room Type: ${room.roomType}</p>
             <p>Bed Size: ${room.bedSize}</p>
             <p>Price per Night: $${room.costPerNight}</p>
