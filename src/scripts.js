@@ -15,7 +15,7 @@ import './images/image-4.png'
 import './images/image-5.png'
 import './images/SleepyZ-logo.png'
 import './images/hotel-background.jpg'
-import { findCustomer, getCustomerId } from '../test/customers.js'
+import { getCustomerId } from '../test/customers.js'
 import { getRoomData, availableRooms, removedBookedRoom } from '../test/rooms.js'
 import { roomBooked } from '../test/bookings.js'
 
