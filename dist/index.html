@@ -19,9 +19,9 @@
       <div class="login-form">
         <h2>LOGIN</h2>
         <form action="">
-        <div class="input-field"><input class='user-name' id='userName' type="text" required>
+        <div class="input-field"><input class='user-name' id='userName' type="text" aria-required="true" aria-label="Username" required>
           <label for="userName">USERNAME</label></div>
-          <div class="input-field"><input class='password' id='userPassword' type="text" required>
+          <div class="input-field"><input class='password' id='userPassword' type="text" aria-required="true" aria-label="Username" required>
           <label for="userPassword">PASSWORD</label></div>
           <button class='submit-btn' type="submit">LOG IN</button></form>
       </div>
@@ -29,20 +29,21 @@
   <section class="check-in-box hidden">
     <div id="roomSearch" class="check-in-info">
       <label for="checkInDate">Select Date</label>
-      <input type="date" name="" id="checkInDate">
+      <input type="date" name="" id="checkInDate" aria-label="Check-in Date">
       <label for="roomType">Room Type:</label>
-      <select name="" id="roomType">
+      <select name="" id="roomType" aria-label="Room Type">
           <option value="">Select Room</option>
           <option value="single room">Single Room</option>
           <option value="suite">Suite</option>
           <option value="junior suite">Junior Suite</option>
           <option value="residential suite">Residential Suite</option>
       </select>
-      <button id="searchBtn" >Search</button>
+      <button id="searchBtn" aria-label="Search for rooms">Search</button>
     </div>
     <div class="search-result" id="displayDashboard"></div>
     <div class="flitered-rooms" id="filteredRooms"></div>
     <div class="display-message" id="displayMessage"></div>
+    <div id="symbole"></div>
   </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
