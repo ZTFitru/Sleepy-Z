@@ -1,7 +1,3 @@
-import { findCustomer } from "./customers";
-import bookings from "./data/bookingsSample";
-import customers from "./data/customerSample";
-
 
 export const getRoomData = (roomType, rooms) => {
     const roomInfo = rooms[0].rooms.filter((room) => {

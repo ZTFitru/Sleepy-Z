@@ -18,8 +18,6 @@ import './images/hotel-background.jpg'
 import { findCustomer, getCustomerId } from '../test/customers.js'
 import { getRoomData, availableRooms, removedBookedRoom } from '../test/rooms.js'
 import { roomBooked } from '../test/bookings.js'
-// import rooms from '../test/data/roomsSample.js'
-// import bookings from '../test/data/bookingsSample.js'
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -29,7 +27,8 @@ const passwordInput = document.querySelector('.password');
 const homePage = document.querySelector('.dash-board');
 const searchBtn = document.getElementById('searchBtn');  
 const checkInView = document.querySelector('.check-in-box');
-
+const symboleTag = document.getElementById('symbole');
+const symbol = symboleTag.innerHTML = `&#x203A;`
 let customerDetails;
 let customerUserName;
 let avaliableRoomHandler;
@@ -54,15 +53,15 @@ const submitInput = (event) => {
         const loggedInCustomer = roomBooked(customerDetails, bookings);
         const totalSpentOnRooms = customerTotalSpent(customerDetails);
         const findRoomType = getRoomDetails(customerDetails);
-        const roomDetailsHTML = generateRoomHTML(loggedInCustomer, findRoomType);
+        const roomDetailsHTML = generateRoomHtml(loggedInCustomer, findRoomType);
 
         homePage.innerHTML = `
-        <h2>Welcome, ${customerDetails.name}</h2>
+        <h1>Welcome, ${customerDetails.name}</h1>
         <div class='display-box customer-box'>
             <div class='room-container'>
                 ${roomDetailsHTML}
             </div>
-            <p class='display-costPerNight'>Total Spent: $${totalSpentOnRooms}</p>
+            <p class='display-costPerNight'>${symbol} Total Spent: $${totalSpentOnRooms}</p>
         </div>
         `;
         const checkInView = document.querySelector('.check-in-box');
@@ -73,7 +72,7 @@ const submitInput = (event) => {
 };
 submitBtn.addEventListener('click', submitInput);
 
-const generateRoomHTML = (loggedInCustomer, findRoomType) => {
+const generateRoomHtml = (loggedInCustomer, findRoomType) => {
     let roomDetailsHTML = '';
     const allRoomTypes = findRoomType.reduce((acc, room) => {
         room.forEach((type) => {
@@ -87,14 +86,16 @@ const generateRoomHTML = (loggedInCustomer, findRoomType) => {
         const bidetData = allRoomTypes[index].bidet;
         const dateBooked = room.date;
         const roomNumber = room.roomNumber;
+        const roomCost = allRoomTypes[index].costPerNight
 
         roomDetailsHTML += `
-        <div class='room-details'>
-            <p class='room-number'>Room Number: ${roomNumber}</p>
+        <div class='room-details' tabindex='0' aria-labelledby='room-${index}'>
+            <p id='room-${index}' class='room-number'>${symbol} Room Number: ${roomNumber}</p>
             <p class='room-type'>Room Type: ${roomType}</p>
             <p class='room-type'>Has a Bidet: ${bidetData}</p>
             <p class='bed-size'>Bed Size: ${bedSize}</p>
             <p class='date-booked'>Date Booked: ${dateBooked}</p>
+            <p id='room-${index}' class='per-night'>${symbol}Cost Per Night: $${roomCost}</p>
         </div>
         `;
     });
@@ -145,7 +146,7 @@ const searchForRoom = () => {
     const checkInDateFinal = checkInDate.split('-').join('/');
 
     if (!checkInDate) {
-        alert('Please select a date');
+        alert('Please select a date!');
         return;
     }
     const roomsByType = getRoomData(roomType, rooms);
@@ -214,7 +215,7 @@ const bookingARoom = (event) => {
         updateAvailableRooms(roomNumber, checkInDateFinal);
         alert(`Room ${roomNumber} has been successfully booked.`);
     } else {
-        alert(`Room ${roomNumber} is not available.`);
+        alert(`We are sorry, but room ${roomNumber} is not available.`);
     };
 };
 
